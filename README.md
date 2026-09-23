@@ -1,58 +1,60 @@
-# 🧪 Testing — Archived
+# Ajit Pal Singh — Portfolio
 
-## What is this repository?
+A responsive personal portfolio website built with plain **HTML, CSS and JavaScript**.
 
-This repository was used as a **scratch space for testing and experimenting with code**.
+## What is inside?
 
-It is intentionally kept minimal and is **not a portfolio project**.
+The portfolio presents my profile across:
 
-There is no major application here that needs to be presented to a recruiter.
+- Business Analytics and Sales Analytics
+- Data analysis and reporting
+- Backend/software engineering
+- AI/NLP projects
+- Algorithms and data structures
+- Open-source and repository improvement work
 
-## What does "scratch space" mean?
+## Featured projects
 
-A scratch repository is a place where a developer can quickly try an idea, test something, or experiment without treating the code as a finished project.
+1. [Flight Alert System](https://github.com/dwdxdydz/Flight-Alert-System)
+2. [AI Document RAG Assistant](https://github.com/dwdxdydz/RAG-Sytem)
+3. [Fourier Image Drawing](https://github.com/dwdxdydz/Fourier-Image-Drawing)
+4. [Seq2Seq Machine Translation](https://github.com/dwdxdydz/Seq2Seq-Model)
+5. [Sudoku Generator & Solver](https://github.com/dwdxdydz/sudoku)
+6. [LRU Cache](https://github.com/dwdxdydz/LRU-Cache)
 
-For example:
+## Run locally
 
-```text
-Try an idea
-    ↓
-Test some code
-    ↓
-Find a problem
-    ↓
-Experiment with a solution
+No build system is required.
+
+Open `index.html` in a browser, or run a small local server:
+
+```bash
+python3 -m http.server 8000
 ```
 
-This repository served that purpose.
+Then open `http://localhost:8000`.
 
-## Why is it archived?
+## Deploy with GitHub Pages
 
-As the main projects became more complete, this repository was no longer needed for portfolio development.
+1. Open the repository's **Settings → Pages**.
+2. Select **Deploy from a branch**.
+3. Select `master` and the `/ (root)` folder.
+4. Save.
+5. GitHub will provide the published portfolio URL.
 
-It is kept so the old repository remains available, but it should not be treated as an example of a finished application.
+## Tech used
 
-## Technical terms explained
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Responsive design
+- Intersection Observer API
 
-**Repository** — A project folder stored on a version-control platform such as GitHub. It normally contains source code, documentation and the history of changes.
+## Portfolio goal
 
-**Git** — A version-control system used to track changes to files and collaborate on software projects.
+This repository turns the previous scratch/test repository into a practical personal portfolio and provides a simple, dependency-free site that can be hosted directly from GitHub Pages.
 
-**Version control** — A way of recording changes to code over time so developers can review, compare or return to earlier versions.
+## Links
 
-**Scratch project / scratch space** — A temporary place used for experiments, quick tests and learning rather than production-ready software.
-
-**Archived** — Indicates that a project is no longer actively developed or is no longer a primary project.
-
-## Where to look instead
-
-The main portfolio projects in this GitHub account are:
-
-1. **Flight-Alert-System** — automatically tracks flight prices, stores history and provides analytics.
-2. **RAG-Sytem** — lets users ask questions about PDF documents using retrieval and AI.
-3. **Fourier-Image-Drawing** — redraws image outlines using mathematics and animation.
-4. **Seq2Seq-Model** — demonstrates how a neural network can learn basic machine translation.
-5. **sudoku** — generates and solves Sudoku puzzles using intelligent search.
-6. **LRU-Cache** — demonstrates a data structure for quickly storing recently used information.
-
-These projects provide a much better picture of programming, problem-solving and software-development skills.
+- GitHub: https://github.com/dwdxdydz
+- LinkedIn: https://www.linkedin.com/in/ajitpalsinghiitb
