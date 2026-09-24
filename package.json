@@ -1,0 +1,9 @@
+{
+  "name": "ajit-pal-singh-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static personal portfolio website",
+  "scripts": {
+    "test": "node --test tests/portfolio.test.js"
+  }
+}
