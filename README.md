@@ -1,19 +1,27 @@
-# Ajit Pal Singh — Portfolio
+# Ajit Pal Singh — 3D Portfolio
 
-A responsive personal portfolio website built with plain **HTML, CSS and JavaScript**.
+A responsive personal portfolio built with **HTML, CSS and vanilla JavaScript**, now designed around a modern 3D/glass interface.
 
-This repository was previously a scratch/test repository. It is now a small, dependency-free portfolio project that can be opened locally or deployed with GitHub Pages.
+The goal is to make the portfolio feel like a small interactive product rather than a plain collection of sections.
 
-## What is inside?
+## What changed in the 3D redesign?
 
-The portfolio presents my profile across:
+The previous visual style was a flat dark portfolio. This version introduces depth throughout the page:
 
-- Business Analytics and Sales Analytics
-- Data analysis and reporting
-- Backend/software engineering
-- AI/NLP projects
-- Algorithms and data structures
-- Open-source and repository improvement work
+- 3D glass cards with layered shadows and highlights
+- Mouse/pointer tilt on important cards
+- Perspective-based project cards
+- Floating skill badges around the hero
+- Orbit rings around the hero card
+- A CSS 3D GitHub cube
+- A perspective grid floor
+- Neon ambient lighting and glow effects
+- Layered gradients and glass surfaces
+- Smoother hover states and depth transitions
+- Mobile layout preserved
+- Reduced-motion support preserved
+
+No external UI framework or 3D library was added.
 
 ## Featured projects
 
@@ -39,115 +47,101 @@ testing/
 
 ## Run locally
 
-No framework, package manager or build step is required to view the site.
-
-### Option 1 — open directly
-
-Open `index.html` in a browser.
-
-### Option 2 — use a local server
-
-From the repository folder:
+Open `index.html` directly, or use a local server:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open:
-
-```text
-http://localhost:8000
-```
-
-Using a local server is useful because it behaves more like a real hosted website.
+Then open `http://localhost:8000`.
 
 ## Run tests
 
-The repository includes automated tests using Node.js's built-in test runner. No npm dependencies are required.
-
-Make sure Node.js is installed, then run:
+Node.js's built-in test runner is used, so no npm dependencies are required.
 
 ```bash
 npm test
 ```
 
-The tests check:
+The test suite checks:
 
-- Required portfolio files exist
-- HTML IDs are not duplicated
-- Internal navigation links point to real sections
-- Local CSS and JavaScript files exist
-- External links opened in a new tab use safe `noopener noreferrer` attributes
-- JavaScript has valid syntax
-- JavaScript contains browser fallbacks for missing elements and unsupported Intersection Observer
-- Expected portfolio sections and projects are present
-- Responsive and reduced-motion CSS rules are present
+- Required files
+- Duplicate HTML IDs
+- Broken internal links
+- Missing local CSS/JS resources
+- Safe external links
+- JavaScript syntax
+- Defensive browser behaviour
+- Required portfolio sections/projects
+- Responsive CSS
+- Reduced-motion support
+- 3D implementation hooks
 
-## What was fixed
+## 3D implementation
 
-The original page worked as a visual prototype, but the JavaScript and markup were not defensive enough for a portfolio that should be easy to maintain.
+### CSS 3D
 
-The update improves the project by:
+The visual depth is created with native CSS features:
 
-- Making the mobile navigation update `aria-expanded` and its accessible label
-- Closing the mobile menu when a navigation item is selected
-- Closing the mobile menu with the Escape key or an outside click
-- Guarding DOM elements before using them
-- Clamping the scroll-progress value between 0% and 100%
-- Updating scroll progress after page load and browser resize
-- Adding a fallback when `IntersectionObserver` is unavailable
-- Using `defer` for the main JavaScript file
-- Adding visible keyboard focus styling
-- Marking decorative elements as hidden from assistive technology where appropriate
-- Adding a test suite so common broken-link and markup mistakes can be caught before deployment
+- `perspective`
+- `transform-style: preserve-3d`
+- `rotateX()`
+- `rotateY()`
+- `translateZ()`
+- layered `box-shadow`
+- glass-style transparency and `backdrop-filter`
 
-## Deploy with GitHub Pages
+This means there is no dependency on Three.js just to create the interface depth.
 
-1. Open the repository's **Settings → Pages**.
-2. Select **Deploy from a branch**.
-3. Select `master` and the `/ (root)` folder.
-4. Save.
-5. GitHub will provide the published portfolio URL.
+### Pointer tilt
 
-## Tech used
+Elements with:
 
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Node.js built-in test runner
-- Responsive design
-- Intersection Observer API
-- GitHub Pages
+```html
+data-tilt
+```
+
+are detected by JavaScript.
+
+When the pointer moves over a card, its position is converted into small X/Y rotations. `requestAnimationFrame` keeps the visual update efficient.
+
+The effect is automatically disabled when the user has enabled **reduced motion**.
+
+### CSS 3D cube
+
+The GitHub section contains a six-face cube built entirely with CSS transforms. Each face is positioned in 3D space using `translateZ()` and rotations.
 
 ## Technical terms explained
 
-**HTML** — Defines the structure and content of the webpage.
+**Perspective** — Controls how strong the 3D depth appears from the viewer's position.
 
-**CSS** — Controls the visual design, layout, responsive behaviour and animations.
+**Transform** — A CSS operation that can move, rotate or scale an element.
 
-**JavaScript** — Adds interactive behaviour such as the mobile menu, scroll progress and reveal animations.
+**Preserve-3D** — Keeps child elements positioned in the same 3D coordinate space instead of flattening them.
 
-**DOM** — The browser's representation of the HTML page that JavaScript can read and modify.
+**TranslateZ** — Moves an element toward or away from the viewer.
 
-**ARIA** — Accessibility attributes that help assistive technologies understand interactive elements.
+**Glassmorphism** — A visual style using transparency, blur, borders and layered lighting to create a glass-like surface.
 
-**Intersection Observer** — A browser API that detects when an element enters the visible part of the page.
+**Pointer tilt** — Rotates a card slightly based on where the mouse or pointer is located.
 
-**Fallback** — An alternative behaviour used when a browser does not support a particular feature.
+**RequestAnimationFrame** — A browser API used to schedule animation updates efficiently.
 
-**Node.js test runner** — A testing tool included with modern Node.js installations. It allows the project to run automated JavaScript tests without installing a testing framework.
-
-**Static website** — A website served as files such as HTML, CSS and JavaScript without requiring a backend server.
+**Reduced motion** — An accessibility preference that allows users to minimise motion and animation.
 
 ## Portfolio goal
 
-This repository demonstrates more than a visual portfolio. It also demonstrates basic software-quality practices:
+The portfolio now demonstrates both my professional profile and frontend implementation skills:
 
-- Defensive JavaScript
+- Business Analytics
+- Sales Analytics
+- Data & AI projects
+- Backend/software engineering
+- Responsive web design
+- CSS 3D
+- JavaScript interaction
 - Accessibility
-- Responsive design
 - Automated testing
-- Maintainable project structure
 - Documentation
 
 ## Links

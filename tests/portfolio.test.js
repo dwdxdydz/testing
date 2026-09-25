@@ -10,7 +10,7 @@ const css = fs.readFileSync(path.join(root, "style.css"), "utf8");
 const script = fs.readFileSync(path.join(root, "script.js"), "utf8");
 
 test("required portfolio files exist", () => {
-  for (const file of ["index.html", "style.css", "script.js", "README.md"]) {
+  for (const file of ["index.html", "style.css", "script.js", "README.md", "package.json"]) {
     assert.ok(fs.existsSync(path.join(root, file)), `Missing ${file}`);
   }
 });
@@ -24,26 +24,22 @@ test("HTML has no duplicate IDs", () => {
 test("all internal links point to existing sections", () => {
   const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]));
   const links = [...html.matchAll(/href=["']#([^"']+)["']/g)].map((match) => match[1]);
-
-  for (const target of links) {
-    assert.ok(ids.has(target), `Broken internal link: #${target}`);
-  }
+  for (const target of links) assert.ok(ids.has(target), `Broken internal link: #${target}`);
 });
 
 test("local HTML resources exist", () => {
-  const localResources = [
+  const resources = [
     ...html.matchAll(/href=["']([^"'#]+\.(?:css|js))["']/g),
     ...html.matchAll(/src=["']([^"']+\.js)["']/g),
   ].map((match) => match[1]);
 
-  for (const resource of new Set(localResources)) {
+  for (const resource of new Set(resources)) {
     assert.ok(fs.existsSync(path.join(root, resource)), `Missing resource: ${resource}`);
   }
 });
 
 test("external links opened in a new tab use safe rel attributes", () => {
   const externalLinks = [...html.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/g)].map((match) => match[0]);
-
   for (const link of externalLinks) {
     assert.match(link, /rel=["'][^"']*noopener[^"']*noreferrer[^"']*["']/);
   }
@@ -53,14 +49,15 @@ test("JavaScript has valid syntax", () => {
   assert.doesNotThrow(() => new vm.Script(script, { filename: "script.js" }));
 });
 
-test("JavaScript guards optional browser elements and has mobile fallbacks", () => {
+test("JavaScript has defensive browser behaviour", () => {
   assert.match(script, /navToggle\?\.addEventListener/);
   assert.match(script, /if \(year\)/);
   assert.match(script, /"IntersectionObserver" in window/);
   assert.match(script, /Math\.min\(100, Math\.max\(0, percentage\)\)/);
+  assert.match(script, /prefers-reduced-motion/);
 });
 
-test("portfolio contains the expected navigation and project sections", () => {
+test("portfolio contains the expected sections and projects", () => {
   for (const id of ["home", "about", "experience", "projects", "skills", "open-source", "contact"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
@@ -77,7 +74,20 @@ test("portfolio contains the expected navigation and project sections", () => {
   }
 });
 
+test("3D visual system is wired into the page", () => {
+  const tiltCount = (html.match(/data-tilt/g) || []).length;
+  assert.ok(tiltCount >= 6, `Expected multiple 3D tilt surfaces, found ${tiltCount}`);
+  assert.match(html, /github-cube/);
+  assert.match(css, /transform-style:\s*preserve-3d/);
+  assert.match(css, /perspective:/);
+  assert.match(css, /rotateY\(/);
+  assert.match(css, /translateZ\(/);
+  assert.match(script, /data-tilt/);
+  assert.match(script, /requestAnimationFrame/);
+});
+
 test("CSS contains responsive and reduced-motion rules", () => {
-  assert.match(css, /@media \(max-width: 800px\)/);
+  assert.match(css, /@media \(max-width: 850px\)/);
+  assert.match(css, /@media \(max-width: 520px\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
