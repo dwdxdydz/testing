@@ -8,11 +8,19 @@ const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "style.css"), "utf8");
 const script = fs.readFileSync(path.join(root, "script.js"), "utf8");
+const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+
+const GITHUB = "https://github.com/dwdxdydz";
+const LINKEDIN = "https://www.linkedin.com/in/ajitpalsinghiitb";
 
 test("required portfolio files exist", () => {
-  for (const file of ["index.html", "style.css", "script.js", "README.md", "package.json"]) {
+  for (const file of ["index.html", "style.css", "script.js", "README.md", "package.json", "tests/portfolio.test.js"]) {
     assert.ok(fs.existsSync(path.join(root, file)), `Missing ${file}`);
   }
+});
+
+test("package configuration has a working test command", () => {
+  assert.equal(packageJson.scripts?.test, "node --test tests/portfolio.test.js");
 });
 
 test("HTML has no duplicate IDs", () => {
@@ -55,6 +63,7 @@ test("JavaScript has defensive browser behaviour", () => {
   assert.match(script, /"IntersectionObserver" in window/);
   assert.match(script, /Math\.min\(100, Math\.max\(0, percentage\)\)/);
   assert.match(script, /prefers-reduced-motion/);
+  assert.match(script, /requestAnimationFrame/);
 });
 
 test("portfolio contains the expected sections and projects", () => {
@@ -70,8 +79,76 @@ test("portfolio contains the expected sections and projects", () => {
     "Sudoku Generator & Solver",
     "LRU Cache",
   ]) {
-    assert.match(html, new RegExp(project.replace(/[.*+?^{}()|[\]\\]/g, "\\$&")));
+    assert.match(html, new RegExp(project.replace(/[.*+?^{}()|[\\]\\\\]/g, "\\\\$&")));
   }
+});
+
+test("GitHub profile data is present and linked correctly", () => {
+  assert.match(html, new RegExp(GITHUB.replace(/[.*+?^{}()|[\\]\\\\]/g, "\\\\$&")));
+  assert.match(html, /Open GitHub/);
+
+  const expectedRepos = [
+    "Flight-Alert-System",
+    "RAG-Sytem",
+    "Fourier-Image-Drawing",
+    "Seq2Seq-Model",
+    "sudoku",
+    "LRU-Cache",
+  ];
+
+  for (const repo of expectedRepos) {
+    assert.match(html, new RegExp(`github\\.com/dwdxdydz/${repo}`), `Missing GitHub project link: ${repo}`);
+  }
+});
+
+test("LinkedIn profile data is present and linked correctly", () => {
+  assert.match(html, new RegExp(LINKEDIN.replace(/[.*+?^{}()|[\\]\\\\]/g, "\\\\$&")));
+  assert.match(html, /Connect on LinkedIn/);
+});
+
+test("professional profile data is represented", () => {
+  for (const value of [
+    "Ajit Pal Singh",
+    "IIT Bombay",
+    "Business Analyst",
+    "Sales Analytics",
+    "Emoha Elder Care",
+    "Bengaluru, India",
+    "Excel",
+    "SQL",
+    "Power BI",
+    "Zoho Analytics",
+    "Python",
+    "Java",
+    "C++",
+    "MySQL",
+    "MongoDB",
+    "300+",
+  ]) {
+    assert.match(html, new RegExp(value.replace(/[.*+?^{}()|[\\]\\\\]/g, "\\\\$&")), `Missing profile data: ${value}`);
+  }
+});
+
+test("contact information is present", () => {
+  assert.match(html, /mailto:ajitpalsinghiitb@gmail\.com/);
+  assert.match(html, /linkedin\.com\/in\/ajitpalsinghiitb/);
+  assert.match(html, /github\.com\/dwdxdydz/);
+});
+
+test("SEO and document metadata are present", () => {
+  assert.match(html, /<meta charset=["']UTF-8["']/i);
+  assert.match(html, /<meta name=["']viewport["']/i);
+  assert.match(html, /<meta name=["']description["']/i);
+  assert.match(html, /<meta name=["']theme-color["']/i);
+  assert.match(html, /<title>[^<]+<\/title>/i);
+});
+
+test("basic accessibility hooks are present", () => {
+  assert.match(html, /<html lang=["']en["']/);
+  assert.match(html, /aria-label=["'][^"']+["']/);
+  assert.match(html, /aria-expanded=["']false["']/);
+  assert.match(html, /aria-hidden=["']true["']/);
+  assert.match(html, /prefers-reduced-motion/);
 });
 
 test("3D visual system is wired into the page", () => {
@@ -83,11 +160,24 @@ test("3D visual system is wired into the page", () => {
   assert.match(css, /rotateY\(/);
   assert.match(css, /translateZ\(/);
   assert.match(script, /data-tilt/);
-  assert.match(script, /requestAnimationFrame/);
 });
 
 test("CSS contains responsive and reduced-motion rules", () => {
   assert.match(css, /@media \(max-width: 850px\)/);
   assert.match(css, /@media \(max-width: 520px\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test("portfolio includes useful business-analyst positioning", () => {
+  for (const keyword of [
+    "sales operations",
+    "analytics",
+    "automation",
+    "CRM",
+    "reporting",
+    "KPI Analysis",
+    "Data Cleaning",
+  ]) {
+    assert.match(html, new RegExp(keyword.replace(/[.*+?^{}()|[\\]\\\\]/g, "\\\\$&"), "i"));
+  }
 });
